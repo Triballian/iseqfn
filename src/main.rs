@@ -34,7 +34,7 @@ impl Equation {
                 if let Some(v) = vt {
                     v.push(vec![Term::new(t)]);
                 } else {
-                    vt = Some(Term::new(t));
+                    let vt = Some(Term::new(t));
                 }
                 t = String::from("");
             }
