@@ -31,10 +31,10 @@ impl Equation {
                 t.push(c);
             } else {
                 o.push(c);
-                if !vt {
-                    vt.unwrap().push(Term::new(t))
+                if let Some(v) = vt {
+                    v.push(vec![Term::new(t)]);
                 } else {
-                    vt = vec![Term::new(t)]
+                    vt = Some(Term::new(t));
                 }
                 t = String::from("");
             }
