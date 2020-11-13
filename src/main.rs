@@ -20,7 +20,7 @@ impl Equation {
         eqtion.retain(|c| !c.is_whitespace());
         let mut t: String = String::from("");
         let mut o = String::from("");
-        let mut vt: Option<Vec<Term>> = None;
+        let mut vt: Vec<Term>;
         // let mut vt: Option<> = None;
         for c in eqtion.chars() {
             // for c in eqtion{
@@ -31,11 +31,16 @@ impl Equation {
                 t.push(c);
             } else {
                 o.push(c);
-                if let Some(v) = vt {
-                    v.push(vec![Term::new(t)]);
-                } else {
-                    let vt = Some(Term::new(t));
+                if vt.is_empty() {
+                    vt.push(Term::new(t));
                 }
+                // if let Some(v) = vt {
+                //     let mut vect = v;
+                //     vect.push(Term::new(t));
+                // } else {
+                //     let vt = Some(Term::new(t));
+                //     println! {"vt.0 is {:?}", vt.unwrap()};
+                // }
                 t = String::from("");
             }
         }
@@ -54,8 +59,9 @@ impl Equation {
     //     println!("isfunc {}", self.isfunc);
     // }
 }
+#[derive(Debug)]
 struct Term {
-    exponent: i32,
+    exponent: i32,  //use options here
     variable: char, // x or y or n, y , x or nuymber type
     coefficient: String,
 }
