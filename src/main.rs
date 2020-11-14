@@ -20,7 +20,7 @@ impl Equation {
         eqtion.retain(|c| !c.is_whitespace());
         let mut t: String = String::from("");
         let mut o = String::from("");
-        let mut vt: Vec<Term>;
+        let mut vt: Vec<Term> = vec![Term::new()];
         // let mut vt: Option<> = None;
         for c in eqtion.chars() {
             // for c in eqtion{
@@ -32,7 +32,9 @@ impl Equation {
             } else {
                 o.push(c);
                 if vt.is_empty() {
-                    vt.push(Term::new(t));
+                    let tt = Term::new();
+                    tt.process(t);
+                    vt.push(tt);
                 }
                 // if let Some(v) = vt {
                 //     let mut vect = v;
@@ -61,16 +63,23 @@ impl Equation {
 }
 #[derive(Debug)]
 struct Term {
-    exponent: i32,  //use options here
-    variable: char, // x or y or n, y , x or nuymber type
+    exponent: Option<i32>,  //use options here
+    variable: Option<char>, // x or y or n, y , x or nuymber type
     coefficient: String,
 }
 impl Term {
-    fn new(t: String) -> Self {
+    fn new() -> Self {
+        Self {
+            exponent: None,
+            variable: None,
+            coefficient: String::from(""),
+        }
+    }
+    fn process(&self, t: String) {
         let coeff = String::from("");
         let vr: char;
         // let cexp: String = String::from("");
-        let exp: i32;
+        let mut exp: i32;
         let gtvar = false;
         for c in t.chars() {
             if gtvar == true {
@@ -84,11 +93,10 @@ impl Term {
             vr = c;
             gtvar = true;
         }
-        Self {
-            exponent: exp,
-            variable: vr,
-            coefficient: coeff,
-        }
+
+        self.exponent = Some(exp);
+        self.variable = Some(vr);
+        self.coefficient = coeff;
     }
 }
 
@@ -108,4 +116,49 @@ fn main() {
     // equation.process();
     // println!("Equation: {:?}", equation);
     println!("is in a function {}", equation.isfunc);
+}
+
+#[derive(Debug)]
+struct Term {
+    exponent: Option<Option<i32>>, //use options here
+    variable: Option<char>,        // x or y or n, y , x or nuymber type
+    coefficient: String,
+}
+impl Term {
+    fn new() -> Self {
+        Self {
+            exponent: None,
+            variable: None,
+            coefficient: String::from(""),
+        }
+    }
+    fn process(&mut self, t: String) {
+        let mut coeff = String::from("");
+        let mut vr = 'n';
+        // let cexp: String = String::from("");
+        let mut exp: Option<i32> = None;
+        let mut gtvar = false;
+        for c in t.chars() {
+            if gtvar == true {
+                exp = Some(coeff.parse::<i32>().unwrap());
+                continue;
+            }
+            if (c != 'x') && (c != 'y') && (gtvar == false) {
+                coeff.push(c);
+                continue;
+            }
+            vr = c;
+            gtvar = true;
+        }
+
+        self.exponent = Some(exp);
+        self.variable = Some(vr);
+        self.coefficient = coeff;
+    }
+}
+fn main() {
+    let mut vt = Term::new();
+    vt.process(String::from("2x^2"));
+
+    println!("term: {:?}", vt);
 }
