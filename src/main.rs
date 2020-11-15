@@ -56,10 +56,11 @@ impl Equation {
                 t = String::from("");
             }
         }
+        // let mvt = move || {vt.unwrap()};
         Self {
             equation: eqtion,
             isfunc: true,
-            terms: vt.unwrap(),
+            terms: mvt.unwrap(),
             opps: o,
         }
     }
@@ -109,6 +110,12 @@ impl Term {
         self.coefficient = coeff;
     }
 }
+// impl Copy for Term {}
+// impl Clone for Term {
+//     fn clone(&self) -> Term {
+//         *self
+//     }
+// }
 
 // struct Expression {
 //     base: i32,
