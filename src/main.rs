@@ -20,7 +20,9 @@ impl Equation {
         eqtion.retain(|c| !c.is_whitespace());
         let mut t: String = String::from("");
         let mut o = String::from("");
-        let mut vt: Vec<Term> = vec![Term::new()];
+        // let mut vt: Vec<Term> = vec![None];
+        let mut vt: &Option<Vec<Term>> = &None;
+        // let mut vt: Vec<Term>;
         // let mut vt: Option<> = None;
         for c in eqtion.chars() {
             // for c in eqtion{
@@ -31,10 +33,18 @@ impl Equation {
                 t.push(c);
             } else {
                 o.push(c);
-                if vt.is_empty() {
-                    let tt = Term::new();
+                // if !vt.is_some() {
+                if vt.is_none() {
+                    let mut tt = Term::new();
+                    println!("t is :{:?}", t);
                     tt.process(t);
-                    vt.push(tt);
+                    // vt.push(tt);
+                    vt = &Some(vec![tt]);
+                } else {
+                    let mut tt = Term::new();
+                    println!("t is :{:?}", t);
+                    tt.process(t);
+                    vt.unwrap().push(tt);
                 }
                 // if let Some(v) = vt {
                 //     let mut vect = v;
@@ -49,7 +59,7 @@ impl Equation {
         Self {
             equation: eqtion,
             isfunc: true,
-            terms: vt,
+            terms: vt.unwrap(),
             opps: o,
         }
     }
@@ -61,64 +71,7 @@ impl Equation {
     //     println!("isfunc {}", self.isfunc);
     // }
 }
-#[derive(Debug)]
-struct Term {
-    exponent: Option<i32>,  //use options here
-    variable: Option<char>, // x or y or n, y , x or nuymber type
-    coefficient: String,
-}
-impl Term {
-    fn new() -> Self {
-        Self {
-            exponent: None,
-            variable: None,
-            coefficient: String::from(""),
-        }
-    }
-    fn process(&self, t: String) {
-        let coeff = String::from("");
-        let vr: char;
-        // let cexp: String = String::from("");
-        let mut exp: i32;
-        let gtvar = false;
-        for c in t.chars() {
-            if gtvar == true {
-                exp = coeff.parse::<i32>().unwrap();
-                continue;
-            }
-            if (c != 'x') && (c != 'y') && (gtvar == false) {
-                coeff.push(c);
-                continue;
-            }
-            vr = c;
-            gtvar = true;
-        }
-
-        self.exponent = Some(exp);
-        self.variable = Some(vr);
-        self.coefficient = coeff;
-    }
-}
-
-// struct Expression {
-//     base: i32,
-//     var: char,
-//     operator: char, // ^ or nothing
-//     exponent: int,
-// }
-// struct Lside {
-//     Lside: Vec<Expression>,
-//     size: i32,
-//     operator: char, // *, -, *,
-// }
-fn main() {
-    let equation = Equation::new(String::from("2x^2 + 3y^2 = 15"));
-    // equation.process();
-    // println!("Equation: {:?}", equation);
-    println!("is in a function {}", equation.isfunc);
-}
-
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct Term {
     exponent: Option<Option<i32>>, //use options here
     variable: Option<char>,        // x or y or n, y , x or nuymber type
@@ -156,9 +109,24 @@ impl Term {
         self.coefficient = coeff;
     }
 }
-fn main() {
-    let mut vt = Term::new();
-    vt.process(String::from("2x^2"));
 
-    println!("term: {:?}", vt);
+// struct Expression {
+//     base: i32,
+//     var: char,
+//     operator: char, // ^ or nothing
+//     exponent: int,
+// }
+// struct Lside {
+//     Lside: Vec<Expression>,
+//     size: i32,
+//     operator: char, // *, -, *,
+// }
+fn main() {
+    let equation = Equation::new(String::from("2x^2 + 3y^2 = 15"));
+    // equation.process();
+    // println!("Equation: {:?}", equation);
+    println!(
+        "is it a function: {}, terms: {:?}",
+        equation.isfunc, equation.terms
+    );
 }
