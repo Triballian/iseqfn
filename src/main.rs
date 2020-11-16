@@ -21,8 +21,9 @@ impl Equation {
         let mut t: String = String::from("");
         let mut o = String::from("");
         // let mut vt: Vec<Term> = vec![None];
-        let mut vt: &Option<Vec<Term>> = &None;
-        // let mut vt: Vec<Term>;
+        //let mut vt: Option<Vec<Term>> = Option::as_ref(&None);
+        let mut vt: Vec<Term> = vec![];
+        //let mut vt: Vec<Term>;
         // let mut vt: Option<> = None;
         for c in eqtion.chars() {
             // for c in eqtion{
@@ -34,17 +35,22 @@ impl Equation {
             } else {
                 o.push(c);
                 // if !vt.is_some() {
-                if vt.is_none() {
+                // if vt.as_ref() == None {
+                // if vt.is_none() {
+                // if None = vt {
+                // if !vt.is_some() {
+                // if let Some(vct) = vt {
+                if vt.is_empty() {
                     let mut tt = Term::new();
                     println!("t is :{:?}", t);
                     tt.process(t);
                     // vt.push(tt);
-                    vt = &Some(vec![tt]);
+                    vt = vec![tt.clone()];
                 } else {
                     let mut tt = Term::new();
                     println!("t is :{:?}", t);
                     tt.process(t);
-                    vt.unwrap().push(tt);
+                    vt.push(tt);
                 }
                 // if let Some(v) = vt {
                 //     let mut vect = v;
@@ -60,7 +66,7 @@ impl Equation {
         Self {
             equation: eqtion,
             isfunc: true,
-            terms: mvt.unwrap(),
+            terms: vt,
             opps: o,
         }
     }
@@ -72,7 +78,7 @@ impl Equation {
     //     println!("isfunc {}", self.isfunc);
     // }
 }
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 struct Term {
     exponent: Option<Option<i32>>, //use options here
     variable: Option<char>,        // x or y or n, y , x or nuymber type
@@ -83,7 +89,7 @@ impl Term {
         Self {
             exponent: None,
             variable: None,
-            coefficient: String::from(""),
+            coefficient: String::from("").clone(),
         }
     }
     fn process(&mut self, t: String) {
@@ -107,7 +113,7 @@ impl Term {
 
         self.exponent = Some(exp);
         self.variable = Some(vr);
-        self.coefficient = coeff;
+        self.coefficient = coeff.clone();
     }
 }
 // impl Copy for Term {}
