@@ -80,8 +80,9 @@ impl Equation {
 }
 #[derive(Debug, PartialEq, Clone)]
 struct Term {
-    exponent: Option<Option<i32>>, //use options here
-    variable: Option<char>,        // x or y or n, y , x or nuymber type
+    // exponent: Option<Option<i32>>, //use options here
+    exponent: Option<i32>,
+    variable: Option<char>, // x or y or n, y , x or nuymber type
     coefficient: String,
 }
 impl Term {
@@ -111,7 +112,7 @@ impl Term {
             gtvar = true;
         }
 
-        self.exponent = Some(exp);
+        self.exponent = exp;
         self.variable = Some(vr);
         self.coefficient = coeff.clone();
     }
