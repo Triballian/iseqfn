@@ -18,7 +18,7 @@ struct Equation {
 impl Equation {
     fn new(mut eqtion: String) -> Self {
         eqtion.retain(|c| !c.is_whitespace());
-        let mut t: String = String::from("");
+        let mut t = String::from("");
         let mut o = String::from("");
         // let mut vt: Vec<Term> = vec![None];
         //let mut vt: Option<Vec<Term>> = Option::as_ref(&None);
@@ -40,16 +40,23 @@ impl Equation {
                 // if None = vt {
                 // if !vt.is_some() {
                 // if let Some(vct) = vt {
-                if vt.is_empty() {
+                if vt.is_empty() && (c != eqtion.chars().last().unwrap()) {
                     let mut tt = Term::new();
                     // println!("t is :{:?}", t);
-                    tt.process(t);
+                    tt.process(t.clone());
                     // vt.push(tt);
                     vt = vec![tt.clone()];
-                } else {
+                    t = String::from("").clone();
+                } else if c != eqtion.chars().last().unwrap() {
                     let mut tt = Term::new();
-                    println!("t is :{:?}", t);
-                    tt.process(t);
+                    // println!("t is :{:?}", t);
+                    tt.process(t.clone());
+                    vt.push(tt);
+                    t = String::from("").clone();
+                } else {
+                    println!("t: {}", t);
+                    let mut tt = Term::new();
+                    tt.process(t.clone());
                     vt.push(tt);
                 }
                 // if let Some(v) = vt {
@@ -59,7 +66,12 @@ impl Equation {
                 //     let vt = Some(Term::new(t));
                 //     println! {"vt.0 is {:?}", vt.unwrap()};
                 // }
-                t = String::from("");
+                
+                // if c == eqtion.chars().last().unwrap() {
+                    
+
+                // }
+                
             }
         }
 
@@ -93,46 +105,33 @@ impl Equation {
 #[derive(Debug,Clone)]
 struct Term {
     // exponent: Option<Option<i32>>, //use options here
-    exponent: Option<i32>,
-    variable: Option<char>, // x or y or n, y , x or nuymber type
     coefficient: Option<i32>,
+    variable: Option<char>, // x or y or n, y , x or nuymber type
+    exponent: Option<i32>,
+    
 }
 impl Term {
     fn new() -> Self {
         Self {
-            exponent: None,
-            variable: None,
-            // coefficient: String::from("").clone(),
             coefficient: None,
+            variable: None,
+            exponent: None,
             
+            // coefficient: String::from(""). 
         }
     }
     fn process(&mut self, t: String) {
         let buff = &mut String::from("");
         let mut coeff: Option<i32>  = None;
-        let mut vr = 'n';
+        let mut vr = None;
         // let cexp: String = String::from("");
         let mut exp: String = String::from("");
         // let mut gtvar = false;
         let mut i: usize = 0;
         for c in t.chars() {
             &buff.push(c);
-            // if (c != 'x') && (c != 'y') && (gtvar == false) {
-            //     if !coeff.is_none() {
-            //         // coeff = Some(c);
-            //     } else {coeff.unwrap().push(c);}
-                
-            //     gtvar = true;
-            //     i = i+1;
-            //     continue;
-            // }
-            
-            //     if c == 'x'{
-            //     vr = 'x';
-            //     gtvar = true;
-            // }
-            if (c == 'x') || (c == 'y') {
-                vr = c;
+                if (c == 'x') || (c == 'y') {
+                vr = Some(c);
                 // gtvar = true;
                 if buff == "" {
                     coeff = None;
@@ -142,46 +141,26 @@ impl Term {
                      
                 }
                 i = i+1;
-                *buff = "".to_string();
+                // *buff = "".to_string();
+                *buff = String::from("");
                 continue;
    
-
             }
             if c == '^' {
-                *buff = "".to_string();
+                //*buff = "".to_string();
+                *buff = String::from("");
             }
             if c == t.chars().last().unwrap() {
                 exp = buff.clone() ;
 
             }
-            // if gtvar == false {
-            //     buff.push(c);
-
-            // }
-            
-            // if (gtvar == true) && (!coeff.is_none()) {
-            //     // let blen = buff.len();
-            //     // let scoeff: String = &buff.as_bytes()[0..i - 1] ;
-            //     let scoeff: String = buff[0..i-1].to_string();
-            //     coeff = Some(buff.parse::<i32>().unwrap());
-                
-            //     buff = String::from("");
-            //     i = i+1;
-            //     continue;
-            // }else if gtvar == true (buff == ""){ 
-            //     buff.push(c);
-            //     println!("exp: is {}", exp);
-            // }
-            
-            // vr = c;
-            i = i + 1;
+           // i = i + 1;
+           i += 1;
             
         }
 
-        
-
         self.exponent = Some(exp.parse::<i32>().unwrap());
-        self.variable = Some(vr);
+        self.variable = vr;
         // self.coefficient = coeff.clone();
         if coeff.is_none() {
             self.coefficient = None;
@@ -191,6 +170,9 @@ impl Term {
         }
     }
 }
+
+
+
 // impl Copy for Term {}
 // impl Clone for Term {
 //     fn clone(&self) -> Term {
