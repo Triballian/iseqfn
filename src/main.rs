@@ -25,40 +25,93 @@ impl Equation {
         let mut vt: Vec<Term> = vec![];
         //let mut vt: Vec<Term>;
         // let mut vt: Option<> = None;
+        let mut i: usize = 0;
         for c in eqtion.chars() {
+            t.push(c);
+            i += 1;
             // for c in eqtion{
             //let nexti = i + 1;
             //if t::as_byte()[nexti] != ('+' | '-' | '*' | '=') {
             // if c.as_byte() != ('+' | '-' | '*' | '=') {
-            if (c != '+') && (c != '-') && (c != '*') && (c != '=') {
-                t.push(c);
-            } else {
+            if (c == '+') || (c == '-') || (c == '*') {
                 o.push(c);
+                if vt.is_empty() {
+                    let mut tt = Term::new();
+                    println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
+                    tt.process(t[0..i - 1].to_string().clone());
+                    // vt.push(tt);
+                    // let scoeff: String = buff[0..i].to_string();
+                    vt = vec![tt.clone()];
+                    t = String::from("").clone();
+                    i += 0;
+                    continue
+                } else  {
+                    let mut tt = Term::new();
+                    println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
+                    // tt.process(t.clone());
+                    tt.process(t[0..i - 1].to_string().clone());
+                    vt.push(tt);
+                    t = String::from("").clone();
+                    i += 0;
+                    continue
+                }
+
+            }
+            if c == '=' {
+                if vt.is_empty() {
+                    let mut tt = Term::new();
+                    println!("t is :{:?}", t);
+                    tt.process(t[0..i - 1].to_string().clone());
+                    // vt.push(tt);
+                    vt = vec![tt.clone()];
+                    t = String::from("").clone();
+                    i += 0;
+                    continue
+                } else  {
+                    let mut tt = Term::new();
+                    println!("t is :{:?}", t);
+                    tt.process(t[0..i - 1].to_string().clone());
+                    vt.push(tt);
+                    t = String::from("").clone();
+                    i += 0;
+                    continue
+                }
+            }
+            if c == eqtion.chars().last().unwrap() {
+                if vt.is_empty() {
+                    let mut tt = Term::new();
+                    // println!("t is :{:?}", t);
+                    tt.process(t[0..i - 1].to_string().clone());
+                    // vt.push(tt);
+                    vt = vec![tt.clone()];
+                    // t = String::from("").clone();
+                    
+                } else  {
+                    let mut tt = Term::new();
+                    // println!("t is :{:?}", t);
+                    tt.process(t[0..i - 1].to_string().clone());
+                    vt.push(tt);
+                    // t = String::from("").clone();
+                    
+                }
+            }
+            
+            
+                
                 // if !vt.is_some() {
                 // if vt.as_ref() == None {
                 // if vt.is_none() {
                 // if None = vt {
                 // if !vt.is_some() {
                 // if let Some(vct) = vt {
-                if vt.is_empty() && (c != eqtion.chars().last().unwrap()) {
-                    let mut tt = Term::new();
-                    // println!("t is :{:?}", t);
-                    tt.process(t.clone());
-                    // vt.push(tt);
-                    vt = vec![tt.clone()];
-                    t = String::from("").clone();
-                } else if c != eqtion.chars().last().unwrap() {
-                    let mut tt = Term::new();
-                    // println!("t is :{:?}", t);
-                    tt.process(t.clone());
-                    vt.push(tt);
-                    t = String::from("").clone();
-                } else {
-                    println!("t: {}", t);
-                    let mut tt = Term::new();
-                    tt.process(t.clone());
-                    vt.push(tt);
-                }
+
+                //   else {
+                //     println!("t: {}", t);
+                //     let mut tt = Term::new();
+                //     tt.process(t.clone());
+                //     vt.push(tt);
+                // }
+                
                 // if let Some(v) = vt {
                 //     let mut vect = v;
                 //     vect.push(Term::new(t));
@@ -72,7 +125,7 @@ impl Equation {
 
                 // }
                 
-            }
+            
         }
 
         // let mvt = move || {vt.unwrap()};
