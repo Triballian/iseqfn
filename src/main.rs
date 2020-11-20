@@ -35,69 +35,33 @@ impl Equation {
             // if c.as_byte() != ('+' | '-' | '*' | '=') {
             if (c == '+') || (c == '-') || (c == '*') {
                 o.push(c);
-                // if vt.is_empty() {
-                //     let mut tt = Term::new();
-                //     println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
-                //     tt.process(t[0..i - 1].to_string().clone());
-                //     // vt.push(tt);
-                //     // let scoeff: String = buff[0..i].to_string();
-                //     vt = vec![tt.clone()];
-                //     t = String::from("").clone();
-                //     i = 0;
-                //     continue
-                // } else  {
-                    let mut tt = Term::new();
-                    println!("t indexed is :{:?}", t[0..i -1].to_string().clone());
+                let mut tt = Term::new();
+                println!("t indexed is :{:?}", t[0..i -1].to_string().clone());
                     // tt.process(t.clone());
-                    tt.process(t[0..i - 1].to_string().clone());
-                    vt.push(tt);
-                    t = String::from("").clone();
-                    i = 0;
-                    continue
-                // }
-
+                tt.process(t[0..i - 1].to_string().clone());
+                vt.push(tt);
+                t = String::from("").clone();
+                i = 0;
+                continue              
             }
             if c == '=' {
-                // if vt.is_empty() {
-                //     let mut tt = Term::new();
-                //     println!("t is :{:?}", t[0..i - 1].to_string().clone());
-                //     tt.process(t[0..i - 1].to_string().clone());
-                //     // vt.push(tt);
-                //     vt = vec![tt.clone()];
-                //     t = String::from("").clone();
-                //     i = 0;
-                //     continue
-                // } else  {
-                    let mut tt = Term::new();
-                    println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
-                    tt.process(t[0..i - 1].to_string().clone());
-                    vt.push(tt);
-                    t = String::from("").clone();
-                    i = 0;
-                    continue
-                // }
+                let mut tt = Term::new();
+                println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
+                tt.process(t[0..i - 1].to_string().clone());
+                vt.push(tt);
+                t = String::from("").clone();
+                i = 0;
+                continue
             }
             if c == eqtion.chars().last().unwrap() {
-                // if vt.is_empty() {
-                //     let mut tt = Term::new();
-                //     println!("t is :{:?}", t[0..i - 1].to_string().clone());
-                //     tt.process(t[0..i - 1].to_string().clone());
-                //     // vt.push(tt);
-                //     vt = vec![tt.clone()];
-                //     // t = String::from("").clone();
-                    
-                // } else  {
-                    let mut tt = Term::new();
-                    println!("t is :{:?}", t[0..i - 1].to_string().clone());
-                    tt.process(t[0..i - 1].to_string().clone());
-                    vt.push(tt);
-                    // t = String::from("").clone();
-                    
-                // }
-            }
-            
-            
                 
+                let mut tt = Term::new();
+                println!("t is :{:?}", t[0..i - 1].to_string().clone());
+                tt.process(t[0..i - 1].to_string().clone());
+                vt.push(tt);
+                    // t = String::from("").clone();
+            }
+
                 // if !vt.is_some() {
                 // if vt.as_ref() == None {
                 // if vt.is_none() {
