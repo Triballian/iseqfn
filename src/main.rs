@@ -35,65 +35,65 @@ impl Equation {
             // if c.as_byte() != ('+' | '-' | '*' | '=') {
             if (c == '+') || (c == '-') || (c == '*') {
                 o.push(c);
-                if vt.is_empty() {
+                // if vt.is_empty() {
+                //     let mut tt = Term::new();
+                //     println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
+                //     tt.process(t[0..i - 1].to_string().clone());
+                //     // vt.push(tt);
+                //     // let scoeff: String = buff[0..i].to_string();
+                //     vt = vec![tt.clone()];
+                //     t = String::from("").clone();
+                //     i = 0;
+                //     continue
+                // } else  {
                     let mut tt = Term::new();
-                    println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
-                    tt.process(t[0..i - 1].to_string().clone());
-                    // vt.push(tt);
-                    // let scoeff: String = buff[0..i].to_string();
-                    vt = vec![tt.clone()];
-                    t = String::from("").clone();
-                    i += 0;
-                    continue
-                } else  {
-                    let mut tt = Term::new();
-                    println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
+                    println!("t indexed is :{:?}", t[0..i -1].to_string().clone());
                     // tt.process(t.clone());
                     tt.process(t[0..i - 1].to_string().clone());
                     vt.push(tt);
                     t = String::from("").clone();
-                    i += 0;
+                    i = 0;
                     continue
-                }
+                // }
 
             }
             if c == '=' {
-                if vt.is_empty() {
+                // if vt.is_empty() {
+                //     let mut tt = Term::new();
+                //     println!("t is :{:?}", t[0..i - 1].to_string().clone());
+                //     tt.process(t[0..i - 1].to_string().clone());
+                //     // vt.push(tt);
+                //     vt = vec![tt.clone()];
+                //     t = String::from("").clone();
+                //     i = 0;
+                //     continue
+                // } else  {
                     let mut tt = Term::new();
-                    println!("t is :{:?}", t);
-                    tt.process(t[0..i - 1].to_string().clone());
-                    // vt.push(tt);
-                    vt = vec![tt.clone()];
-                    t = String::from("").clone();
-                    i += 0;
-                    continue
-                } else  {
-                    let mut tt = Term::new();
-                    println!("t is :{:?}", t);
+                    println!("t indexed is :{:?}", t[0..i - 1].to_string().clone());
                     tt.process(t[0..i - 1].to_string().clone());
                     vt.push(tt);
                     t = String::from("").clone();
-                    i += 0;
+                    i = 0;
                     continue
-                }
+                // }
             }
             if c == eqtion.chars().last().unwrap() {
-                if vt.is_empty() {
-                    let mut tt = Term::new();
-                    // println!("t is :{:?}", t);
-                    tt.process(t[0..i - 1].to_string().clone());
-                    // vt.push(tt);
-                    vt = vec![tt.clone()];
-                    // t = String::from("").clone();
+                // if vt.is_empty() {
+                //     let mut tt = Term::new();
+                //     println!("t is :{:?}", t[0..i - 1].to_string().clone());
+                //     tt.process(t[0..i - 1].to_string().clone());
+                //     // vt.push(tt);
+                //     vt = vec![tt.clone()];
+                //     // t = String::from("").clone();
                     
-                } else  {
+                // } else  {
                     let mut tt = Term::new();
-                    // println!("t is :{:?}", t);
+                    println!("t is :{:?}", t[0..i - 1].to_string().clone());
                     tt.process(t[0..i - 1].to_string().clone());
                     vt.push(tt);
                     // t = String::from("").clone();
                     
-                }
+                // }
             }
             
             
@@ -138,11 +138,14 @@ impl Equation {
     }
     fn afunc(&mut self) {
         for ct in &self.terms {
-           println!("this variable: {}, this exponent {}", ct.variable.unwrap(), ct.exponent.unwrap());     
-           if (ct.variable.unwrap() == 'y') && (ct.exponent.unwrap() % 2 == 0)  {
+        //    println!("this variable: {}, this exponent {}", ct.variable.unwrap(), ct.exponent.unwrap()); 
+            // println!("&self: {:?}", self); 
+            if !ct.variable.is_none(){   
+                if (ct.variable.unwrap() == 'y') && (ct.exponent.unwrap() % 2 == 0)  {
             //    if ct.exponent.unwrap() % 2 == 0 {
                    self.isfunc = false;
             //    }
+                }
             }
         }
         
@@ -203,7 +206,9 @@ impl Term {
                 //*buff = "".to_string();
                 *buff = String::from("");
             }
+            // exp would not neccisarily be the last character
             if c == t.chars().last().unwrap() {
+                println!("buff: {}", buff);
                 exp = buff.clone() ;
 
             }
@@ -211,8 +216,11 @@ impl Term {
            i += 1;
             
         }
-
-        self.exponent = Some(exp.parse::<i32>().unwrap());
+        if exp != "" {
+            println!("exp: {}", exp);
+            self.exponent = Some(exp.parse::<i32>().unwrap());
+        }
+        
         self.variable = vr;
         // self.coefficient = coeff.clone();
         if coeff.is_none() {
@@ -251,8 +259,8 @@ fn main() {
     // equation.process();
     // println!("Equation: {:?}", equation);
     println!(
-        "is it a function: {}, terms: {:?}, afunc: {}",
-        equation.isfunc, equation.terms, equation.isfunc
+        "is it a function: {}, terms: {:?}",
+        equation.isfunc, equation.terms
     );
 }
 
