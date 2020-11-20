@@ -1,3 +1,4 @@
+use std::{thread, time};
 //take experssion, gather exponents, if exponent 2 has an expression, not function
 //types of equations
 // Quadratic Equation
@@ -33,6 +34,9 @@ impl Equation {
             //let nexti = i + 1;
             //if t::as_byte()[nexti] != ('+' | '-' | '*' | '=') {
             // if c.as_byte() != ('+' | '-' | '*' | '=') {
+            println!("vt: {:?}", vt);
+            thread::sleep(time::Duration::from_secs(60));
+            
             if (c == '+') || (c == '-') || (c == '*') {
                 o.push(c);
                 let mut tt = Term::new();
@@ -42,6 +46,7 @@ impl Equation {
                 vt.push(tt);
                 t = String::from("").clone();
                 i = 0;
+                println!("vt: {:?}", vt);
                 continue              
             }
             if c == '=' {
