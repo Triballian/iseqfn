@@ -26,16 +26,18 @@ impl Equation {
         let mut vt: Vec<Term> = vec![];
         //let mut vt: Vec<Term>;
         // let mut vt: Option<> = None;
+        let elen = eqtion.len() as usize;
         let mut i: usize = 0;
+        let mut cindex: usize = 0;
         for c in eqtion.chars() {
             t.push(c);
             i += 1;
+            cindex += 1;
             // for c in eqtion{
             //let nexti = i + 1;
             //if t::as_byte()[nexti] != ('+' | '-' | '*' | '=') {
             // if c.as_byte() != ('+' | '-' | '*' | '=') {
-            println!("vt: {:?}", vt);
-            thread::sleep(time::Duration::from_secs(60));
+            
             
             if (c == '+') || (c == '-') || (c == '*') {
                 o.push(c);
@@ -47,6 +49,7 @@ impl Equation {
                 t = String::from("").clone();
                 i = 0;
                 println!("vt: {:?}", vt);
+                
                 continue              
             }
             if c == '=' {
@@ -56,14 +59,21 @@ impl Equation {
                 vt.push(tt);
                 t = String::from("").clone();
                 i = 0;
-                continue
-            }
-            if c == eqtion.chars().last().unwrap() {
                 
+                continue
+
+            }
+            // println!("cindex: {}, elen: {}", cindex, elen);
+            if cindex == elen {
+                // println!("i: {}, elen: {}", i, elen);
+                // println!("vt: {:?}", vt);
+                // thread::sleep(time::Duration::from_secs(60));
                 let mut tt = Term::new();
-                println!("t is :{:?}", t[0..i - 1].to_string().clone());
-                tt.process(t[0..i - 1].to_string().clone());
+                println!("t is :{:?}", t[0..i].to_string().clone());
+                // thread::sleep(time::Duration::from_secs(60));
+                tt.process(t[0..i].to_string().clone());
                 vt.push(tt);
+                
                     // t = String::from("").clone();
             }
 
