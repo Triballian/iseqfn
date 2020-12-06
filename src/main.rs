@@ -1,4 +1,4 @@
-use std::{thread, time};
+// use std::{thread, time};
 //take experssion, gather exponents, if exponent 2 has an expression, not function
 //types of equations
 // Quadratic Equation
@@ -14,6 +14,8 @@ struct Equation {
     terms: Vec<Term>,
     //pterms: Vec<Term>,
     opps: String,
+    abop: bool,
+    abterm: String,
 }
 
 impl Equation {
@@ -29,7 +31,24 @@ impl Equation {
         let elen = eqtion.len() as usize;
         let mut i: usize = 0;
         let mut cindex: usize = 0;
+        let mut myabop = false;
+        let mut myabterm = String::from("");
         for c in eqtion.chars() {
+            if (c == '|') && (eqtion.chars().last().unwrap() == '|') {
+                myabop = true;
+                if i + 1 == elen - 1 {
+                    // println!("i is : {}", i);
+                    // trying to grab the inside of the abs
+                    let tempc: String = String::from(c);
+                    // myabterm.push(eqtion.char[i].to_string().clone());
+                    myabterm.push(eqtion.chars().nth(i).unwrap());
+                    
+
+                }
+
+                 
+
+            }
             t.push(c);
             i += 1;
             cindex += 1;
@@ -113,6 +132,8 @@ impl Equation {
             isfunc: true,
             terms: vt,
             opps: o,
+            abop: myabop,
+            abterm: myabterm,
         }
     }
     fn afunc(&mut self) {
