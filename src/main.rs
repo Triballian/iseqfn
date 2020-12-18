@@ -204,7 +204,7 @@ impl Term {
 
 fn main() {
     
-    let mut equation = Equation::new(String::from("|5x^8| + 3y^2 = 15"));
+    let mut equation = Equation::new(String::from("5x^8 + 3y = 15"));
     equation.afunc();
     
     println!(
@@ -212,4 +212,43 @@ fn main() {
         equation.isfunc, equation.terms
     );
 }
+#[cfg(test)]
+mod test {
+    use super::*;
 
+    #[test]
+    fn checkforfnfalse() {
+        let mut tequation = Equation::new(String::from("5x^8 + |3y^2| = 15"));
+        tequation.afunc();
+        for tterm in &tequation.terms {
+            
+            if tterm.variable != None {    
+                
+                if (tterm.variable.unwrap() == 'y') && (tterm.abs == true) {
+                   
+                    assert!(!tequation.isfunc);
+                    
+                }
+            }
+        }
+
+    }
+    #[test]
+    fn checkforfntrue() {
+        let mut tnequation = Equation::new(String::from("5x^8 + 3y = 15"));
+        tnequation.afunc();
+        for tterm in &tnequation.terms {
+            
+            if tterm.variable != None {    
+                
+                if (tterm.variable.unwrap() == 'y') && (tterm.abs == false) {
+                   
+                    assert!(tnequation.isfunc);
+                    
+                }
+            }
+        }
+
+    }
+
+}
