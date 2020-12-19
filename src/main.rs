@@ -114,7 +114,8 @@ impl Equation {
     fn afunc(&mut self) {
         for ct in &self.terms {
       
-            if !ct.variable.is_none(){   
+            if !ct.variable.is_none() && !ct.exponent.is_none() { 
+                  
                 if (ct.variable.unwrap() == 'y') && (ct.exponent.unwrap() % 2 == 0)  {
     
                    self.isfunc = false;
@@ -218,7 +219,7 @@ mod test {
 
     #[test]
     fn checkforfnfalse() {
-        let mut tequation = Equation::new(String::from("5x^8 + |3y^2| = 15"));
+        let mut tequation = Equation::new(String::from("5x^8 + |3y| = 15"));
         tequation.afunc();
         for tterm in &tequation.terms {
             
@@ -235,7 +236,7 @@ mod test {
     }
     #[test]
     fn checkforfntrue() {
-        let mut tnequation = Equation::new(String::from("5x^8 + 3y = 15"));
+        let mut tnequation = Equation::new(String::from("5x^8 + 3y2 = 15"));
         tnequation.afunc();
         for tterm in &tnequation.terms {
             
@@ -243,7 +244,7 @@ mod test {
                 
                 if (tterm.variable.unwrap() == 'y') && (tterm.abs == false) {
                    
-                    assert!(tnequation.isfunc);
+                    assert!(!tnequation.isfunc);
                     
                 }
             }
