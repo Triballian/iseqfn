@@ -116,11 +116,17 @@ impl Equation {
       
             if !ct.variable.is_none() && !ct.exponent.is_none() { 
                   
-                if (ct.variable.unwrap() == 'y') && (ct.exponent.unwrap() % 2 == 0)  {
+                if (ct.variable.unwrap() == 'y') && (ct.exponent.unwrap() % 2 == 0) && ct.exponent.unwrap() != 0 {
     
                    self.isfunc = false;
  
                 }
+            }
+            if !ct.variable.is_none(){
+                if (ct.variable.unwrap() == 'y') && (ct.abs == true) {
+                    self.isfunc = false;
+                }
+
             }
         }
         
@@ -205,7 +211,7 @@ impl Term {
 
 fn main() {
     
-    let mut equation = Equation::new(String::from("5x^8 + 3y = 15"));
+    let mut equation = Equation::new(String::from("5x^8 + |3y| = 15"));
     equation.afunc();
     
     println!(
@@ -223,9 +229,9 @@ mod test {
         tequation.afunc();
         for tterm in &tequation.terms {
             
-            if tterm.variable != None {    
-                
-                if (tterm.variable.unwrap() == 'y') && (tterm.abs == true) {
+            if !tterm.variable.is_none() {    
+                // (absstart == true) && (c == '|')
+                if (tterm.variable.unwrap() == 'y') && (tterm.abs == true)  {
                    
                     assert!(!tequation.isfunc);
                     
